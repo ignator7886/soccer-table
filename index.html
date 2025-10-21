@@ -564,12 +564,19 @@
                 });
                 teams = Array.from(teamSet).filter(t => t && t !== 'TBD');
 
-                // Get last updated time
-                const lastMatch = allMatches[allMatches.length - 1];
-                if (lastMatch && lastMatch.timestamp) {
-                    const date = new Date(lastMatch.timestamp);
+                // Get last updated time - find most recent match with a timestamp
+                const matchesWithTimestamps = allMatches.filter(m => m.timestamp);
+                if (matchesWithTimestamps.length > 0) {
+                    // Sort by timestamp and get the most recent
+                    const sortedByTime = matchesWithTimestamps.sort((a, b) =>
+                        new Date(b.timestamp) - new Date(a.timestamp)
+                    );
+                    const mostRecent = sortedByTime[0];
+                    const date = new Date(mostRecent.timestamp);
                     document.getElementById('last-updated').textContent =
                         `Last updated: ${date.toLocaleString()}`;
+                } else {
+                    document.getElementById('last-updated').textContent = '';
                 }
 
                 renderMatches();
