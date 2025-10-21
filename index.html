@@ -312,13 +312,13 @@
                 flex-direction: row;
                 gap: 6px;
                 width: 100%;
-                justify-content: space-between;
+                justify-content: flex-start;
                 align-items: center;
             }
 
             .team-name {
                 min-width: auto;
-                flex: 1;
+                width: 100px;
                 font-size: 0.75em;
                 text-align: left;
                 font-weight: 600;
@@ -328,7 +328,7 @@
             }
 
             .team-name:last-child {
-                text-align: right;
+                text-align: left;
             }
 
             .score-input {
@@ -346,40 +346,45 @@
             }
 
             table {
-                font-size: 0.7em;
-                display: block;
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
+                font-size: 0.65em;
+                width: 100%;
+                max-width: 100%;
             }
 
             thead, tbody {
-                display: table;
                 width: 100%;
-                table-layout: fixed;
+            }
+
+            .standings-wrapper {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                margin: 0 -12px;
+                padding: 0 12px;
             }
 
             th, td {
-                padding: 6px 2px;
+                padding: 6px 1px;
             }
 
             th {
-                font-size: 0.7em;
-                padding: 10px 2px;
+                font-size: 0.65em;
+                padding: 8px 1px;
             }
 
             th:first-child, td:first-child {
-                width: 30px;
+                width: 24px;
+                padding-left: 2px;
             }
 
             th:nth-child(2), td:nth-child(2) {
-                width: 85px;
+                min-width: 70px;
                 text-align: left;
-                padding-left: 4px;
+                padding-left: 3px;
             }
 
             th:not(:first-child):not(:nth-child(2)),
             td:not(:first-child):not(:nth-child(2)) {
-                width: 28px;
+                width: 24px;
             }
 
             .position {
