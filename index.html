@@ -118,6 +118,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            position: relative;
         }
 
         .match-info {
@@ -125,6 +126,7 @@
             align-items: center;
             gap: 15px;
             flex: 1;
+            padding-right: 80px;
         }
 
         .team-name {
@@ -327,6 +329,13 @@
                 width: 100%;
                 justify-content: flex-start;
                 align-items: center;
+                padding-right: 70px;
+            }
+
+            .live-indicator {
+                right: 8px;
+                font-size: 0.65em;
+                padding: 3px 8px;
             }
 
             .team-name {
@@ -455,10 +464,6 @@
         .match.live {
             border-left: 4px solid #ff0000;
             background: #fff5f5;
-        }
-
-        .match {
-            position: relative;
         }
     </style>
 </head>
