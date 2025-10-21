@@ -533,7 +533,9 @@
         // Load CSV
         async function loadScores() {
             try {
-                const response = await fetch('scores.csv');
+                // Add timestamp to prevent caching
+                const timestamp = new Date().getTime();
+                const response = await fetch(`scores.csv?t=${timestamp}`);
                 const csvText = await response.text();
 
                 // Parse CSV
@@ -771,9 +773,6 @@
                 `;
             }).join('');
         }
-
-        // Auto-refresh every 30 seconds
-        setInterval(loadScores, 30000);
 
         // Initial load
         loadScores();
