@@ -293,49 +293,56 @@
             }
 
             .week-header {
-                padding: 10px 12px;
-                font-size: 0.95em;
-                flex-direction: column;
-                gap: 5px;
-                align-items: flex-start;
+                padding: 8px 10px;
+                font-size: 0.85em;
+                flex-direction: row;
+                margin: 15px 0 8px 0;
             }
 
             .week-date {
-                font-size: 0.85em;
+                font-size: 0.8em;
             }
 
             .match {
-                padding: 12px 10px;
-                margin-bottom: 10px;
+                padding: 8px;
+                margin-bottom: 8px;
             }
 
             .match-info {
-                flex-direction: column;
-                gap: 10px;
+                flex-direction: row;
+                gap: 6px;
                 width: 100%;
+                justify-content: space-between;
+                align-items: center;
             }
 
             .team-name {
                 min-width: auto;
-                width: 100%;
-                font-size: 0.95em;
-                text-align: center;
-                font-weight: 700;
+                flex: 1;
+                font-size: 0.75em;
+                text-align: left;
+                font-weight: 600;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .team-name:last-child {
+                text-align: right;
             }
 
             .score-input {
-                width: 70px;
-                height: 45px;
-                font-size: 1.2em;
-                margin: 0 auto;
-                display: block;
+                width: 35px;
+                height: 32px;
+                font-size: 0.9em;
+                padding: 2px;
+                flex-shrink: 0;
             }
 
             .vs {
-                font-size: 1.2em;
-                margin: 5px 0;
-                text-align: center;
-                display: block;
+                font-size: 0.8em;
+                margin: 0 2px;
+                flex-shrink: 0;
             }
 
             table {
