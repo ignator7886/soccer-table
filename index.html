@@ -374,6 +374,8 @@
             .match.live {
                 background: #fff5f5 !important;
                 border-left: 4px solid #ff0000;
+                width: 100%;
+                box-sizing: border-box;
             }
 
             .team-name {
@@ -385,6 +387,10 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+            }
+
+            .team-name:first-of-type {
+                text-align: right;
             }
 
             .team-name:last-child {
