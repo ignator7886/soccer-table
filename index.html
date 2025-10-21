@@ -467,12 +467,12 @@
         // Generate championship matchups
         function generateChampionshipMatchups(sortedTeams) {
             const matchups = [
-                { home: sortedTeams[1][0], away: sortedTeams[0][0], label: '1st vs 2nd' },
-                { home: sortedTeams[3][0], away: sortedTeams[2][0], label: '3rd vs 4th' },
-                { home: sortedTeams[5][0], away: sortedTeams[4][0], label: '5th vs 6th' },
-                { home: sortedTeams[7][0], away: sortedTeams[6][0], label: '7th vs 8th' },
-                { home: sortedTeams[9][0], away: sortedTeams[8][0], label: '9th vs 10th' },
-                { home: sortedTeams[11][0], away: sortedTeams[10][0], label: '11th vs 12th' }
+                { home: sortedTeams[0][0], away: sortedTeams[1][0], label: '1st vs 2nd' },
+                { home: sortedTeams[2][0], away: sortedTeams[3][0], label: '3rd vs 4th' },
+                { home: sortedTeams[4][0], away: sortedTeams[5][0], label: '5th vs 6th' },
+                { home: sortedTeams[6][0], away: sortedTeams[7][0], label: '7th vs 8th' },
+                { home: sortedTeams[8][0], away: sortedTeams[9][0], label: '9th vs 10th' },
+                { home: sortedTeams[10][0], away: sortedTeams[11][0], label: '11th vs 12th' }
             ];
 
             return matchups.map(m => `
