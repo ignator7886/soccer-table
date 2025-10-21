@@ -126,13 +126,16 @@
             align-items: center;
             gap: 15px;
             flex: 1;
-            padding-right: 80px;
         }
 
         .team-name {
             font-weight: 600;
             min-width: 150px;
+            max-width: 150px;
             color: #333;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .score {
