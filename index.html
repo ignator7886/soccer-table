@@ -234,10 +234,17 @@
         @media (max-width: 968px) {
             .content {
                 grid-template-columns: 1fr;
+                display: flex;
+                flex-direction: column;
             }
 
             .section.standings-section {
                 position: static;
+                order: -1;
+            }
+
+            .section.matches-section {
+                order: 1;
             }
 
             .standings-wrapper {
@@ -332,29 +339,57 @@
             }
 
             table {
-                font-size: 0.75em;
+                font-size: 0.7em;
+                display: block;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            thead, tbody {
+                display: table;
+                width: 100%;
+                table-layout: fixed;
             }
 
             th, td {
-                padding: 8px 3px;
+                padding: 6px 2px;
             }
 
             th {
-                font-size: 0.75em;
+                font-size: 0.7em;
+                padding: 10px 2px;
+            }
+
+            th:first-child, td:first-child {
+                width: 30px;
+            }
+
+            th:nth-child(2), td:nth-child(2) {
+                width: 85px;
+                text-align: left;
+                padding-left: 4px;
+            }
+
+            th:not(:first-child):not(:nth-child(2)),
+            td:not(:first-child):not(:nth-child(2)) {
+                width: 28px;
             }
 
             .position {
-                width: 24px;
-                height: 24px;
-                font-size: 0.8em;
+                width: 20px;
+                height: 20px;
+                font-size: 0.7em;
             }
 
             .team-cell {
-                font-size: 0.85em;
+                font-size: 0.8em;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
 
             .points {
-                font-size: 1em;
+                font-size: 0.9em;
             }
         }
     </style>
