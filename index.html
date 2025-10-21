@@ -582,6 +582,11 @@
 
         // Check if match is currently live (PST timezone, matches are ~1 hour)
         function isMatchLive(match) {
+            // TEMPORARY: Make Golden Road vs NOHO show as live for demo
+            if (match.homeTeam === 'Golden Road FC' && match.awayTeam === 'NOHO United') {
+                return true;
+            }
+
             if (!match.timestamp) return false;
 
             const now = new Date();
