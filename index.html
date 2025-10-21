@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOHO Fall 2025 - Live Standings</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 12px 12px 0 0;
+        }
+
+        header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .last-updated {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+            align-items: start;
+        }
+
+        .section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+        }
+
+        .section.standings-section {
+            position: sticky;
+            top: 20px;
+            align-self: start;
+        }
+
+        .section.matches-section {
+            max-height: none;
+        }
+
+        .standings-wrapper {
+            max-height: calc(100vh - 40px);
+            overflow-y: auto;
+        }
+
+        .section h2 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .week-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 20px;
+            margin: 20px 0 15px 0;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 1.1em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .week-header:first-child {
+            margin-top: 0;
+        }
+
+        .week-date {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .match {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .match-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+
+        .team-name {
+            font-weight: 600;
+            min-width: 150px;
+            color: #333;
+        }
+
+        .score {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #1e3c72;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .vs {
+            font-weight: bold;
+            color: #999;
+            margin: 0 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+        }
+
+        th {
+            padding: 15px 10px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        th.center, td.center {
+            text-align: center;
+        }
+
+        td {
+            padding: 15px 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .position {
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .team-cell {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .points {
+            font-weight: bold;
+            color: #1e3c72;
+            font-size: 1.1em;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        @media (max-width: 968px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+
+            .section.standings-section {
+                position: static;
+            }
+
+            .standings-wrapper {
+                max-height: none;
+            }
+
+            .team-name {
+                min-width: 120px;
+                font-size: 0.9em;
+            }
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.5em;
+            }
+
+            .content {
+                padding: 15px;
+            }
+
+            .section {
+                padding: 15px;
+            }
+
+            th, td {
+                padding: 10px 5px;
+                font-size: 0.85em;
+            }
+
+            .team-name {
+                min-width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>NOHO Fall 2025</h1>
+            <p>Live Group Calculator</p>
+            <div class="last-updated" id="last-updated">Loading...</div>
+        </header>
+
+        <div class="content">
+            <div class="section matches-section">
+                <h2>Match Schedule</h2>
+                <div id="matches" class="loading">Loading matches...</div>
+            </div>
+
+            <div class="section standings-section">
+                <h2>Group Standings</h2>
+                <div class="standings-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="center">#</th>
+                                <th>Team</th>
+                                <th class="center">P</th>
+                                <th class="center">W</th>
+                                <th class="center">D</th>
+                                <th class="center">L</th>
+                                <th class="center">GF</th>
+                                <th class="center">GA</th>
+                                <th class="center">GD</th>
+                                <th class="center">Pts</th>
+                            </tr>
+                        </thead>
+                        <tbody id="standings"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Team colors
+        const teamColors = {
+            'Highland Park FC': '#F8CFA8',
+            'NOHO United': '#00A651',
+            'Golden Road FC': '#F4D35E',
+            'LA Avengers': '#7C0A1A',
+            'Laurel Canyon FC': '#FF006E',
+            'Smogtown FC': '#CCCCCC',
+            'Silverlake FC': '#FF85E3',
+            'Studio City FC': '#7CA6D9',
+            'Southland FC': '#F28C28',
+            'LA Aftershock': '#2B4420',
+            'Hollywood United': '#5B2C82',
+            'Fault Line FC': '#E30613'
+        };
+
+        let allMatches = [];
+        let teams = [];
+
+        // Load CSV
+        async function loadScores() {
+            try {
+                const response = await fetch('scores.csv');
+                const csvText = await response.text();
+
+                // Parse CSV
+                const lines = csvText.trim().split('\n');
+                const headers = lines[0].split(',');
+
+                allMatches = lines.slice(1).map(line => {
+                    const values = line.split(',');
+                    return {
+                        week: values[0],
+                        date: values[1],
+                        homeTeam: values[2],
+                        homeScore: values[3],
+                        awayScore: values[4],
+                        awayTeam: values[5],
+                        updatedBy: values[6],
+                        timestamp: values[7]
+                    };
+                });
+
+                // Get unique teams
+                const teamSet = new Set();
+                allMatches.forEach(m => {
+                    teamSet.add(m.homeTeam);
+                    teamSet.add(m.awayTeam);
+                });
+                teams = Array.from(teamSet).filter(t => t && t !== 'TBD');
+
+                // Get last updated time
+                const lastMatch = allMatches[allMatches.length - 1];
+                if (lastMatch && lastMatch.timestamp) {
+                    const date = new Date(lastMatch.timestamp);
+                    document.getElementById('last-updated').textContent =
+                        `Last updated: ${date.toLocaleString()}`;
+                }
+
+                renderMatches();
+                updateStandings();
+            } catch (error) {
+                console.error('Error loading scores:', error);
+                document.getElementById('matches').innerHTML =
+                    '<div style="color: red;">Error loading scores. Please refresh the page.</div>';
+            }
+        }
+
+        // Group matches by week
+        function groupByWeek() {
+            const grouped = {};
+            allMatches.forEach(match => {
+                if (!grouped[match.week]) {
+                    grouped[match.week] = {
+                        week: match.week,
+                        date: match.date,
+                        matches: []
+                    };
+                }
+                grouped[match.week].matches.push(match);
+            });
+            return Object.values(grouped);
+        }
+
+        // Render matches
+        function renderMatches() {
+            const matchesDiv = document.getElementById('matches');
+            const weekGroups = groupByWeek();
+
+            matchesDiv.innerHTML = weekGroups.map(weekData => {
+                return `
+                    <div class="week-header">
+                        <span>${weekData.week}</span>
+                        <span class="week-date">${weekData.date}</span>
+                    </div>
+                    ${weekData.matches.map(match => `
+                        <div class="match">
+                            <div class="match-info">
+                                <span class="team-name">${match.homeTeam}</span>
+                                <span class="score">${match.homeScore || '-'}</span>
+                                <span class="vs">:</span>
+                                <span class="score">${match.awayScore || '-'}</span>
+                                <span class="team-name">${match.awayTeam}</span>
+                            </div>
+                        </div>
+                    `).join('')}
+                `;
+            }).join('');
+
+            // Add championship week prediction
+            addChampionshipWeek();
+        }
+
+        // Add championship week
+        function addChampionshipWeek() {
+            const sortedTeams = calculateStandings();
+            const matchesDiv = document.getElementById('matches');
+
+            if (sortedTeams.length >= 12) {
+                const champHTML = `
+                    <div class="week-header">
+                        <span>Championship Week</span>
+                        <span class="week-date">TBD</span>
+                    </div>
+                    <div style="background: #fff3cd; padding: 10px; margin-bottom: 15px; border-radius: 6px; color: #856404; font-weight: 600;">
+                        If playoffs were today:
+                    </div>
+                    <div class="championship-matches">
+                        ${generateChampionshipMatchups(sortedTeams)}
+                    </div>
+                `;
+                matchesDiv.innerHTML += champHTML;
+            }
+        }
+
+        // Generate championship matchups
+        function generateChampionshipMatchups(sortedTeams) {
+            const matchups = [
+                { home: sortedTeams[1][0], away: sortedTeams[0][0], label: '1st vs 2nd' },
+                { home: sortedTeams[3][0], away: sortedTeams[2][0], label: '3rd vs 4th' },
+                { home: sortedTeams[5][0], away: sortedTeams[4][0], label: '5th vs 6th' },
+                { home: sortedTeams[7][0], away: sortedTeams[6][0], label: '7th vs 8th' },
+                { home: sortedTeams[9][0], away: sortedTeams[8][0], label: '9th vs 10th' },
+                { home: sortedTeams[11][0], away: sortedTeams[10][0], label: '11th vs 12th' }
+            ];
+
+            return matchups.map(m => `
+                <div class="match">
+                    <div class="match-info">
+                        <span class="team-name">${m.home}</span>
+                        <span style="color: #999; font-size: 0.9em; min-width: 80px; text-align: center;">${m.label}</span>
+                        <span class="team-name">${m.away}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Calculate standings
+        function calculateStandings() {
+            const stats = {};
+
+            // Initialize
+            teams.forEach(team => {
+                stats[team] = {
+                    played: 0, wins: 0, draws: 0, losses: 0,
+                    goalsFor: 0, goalsAgainst: 0, goalDiff: 0, points: 0
+                };
+            });
+
+            // Calculate from matches
+            allMatches.forEach(match => {
+                const homeScore = parseInt(match.homeScore);
+                const awayScore = parseInt(match.awayScore);
+
+                if (!isNaN(homeScore) && !isNaN(awayScore)) {
+                    stats[match.homeTeam].played++;
+                    stats[match.awayTeam].played++;
+                    stats[match.homeTeam].goalsFor += homeScore;
+                    stats[match.homeTeam].goalsAgainst += awayScore;
+                    stats[match.awayTeam].goalsFor += awayScore;
+                    stats[match.awayTeam].goalsAgainst += homeScore;
+
+                    if (homeScore > awayScore) {
+                        stats[match.homeTeam].wins++;
+                        stats[match.homeTeam].points += 3;
+                        stats[match.awayTeam].losses++;
+                    } else if (awayScore > homeScore) {
+                        stats[match.awayTeam].wins++;
+                        stats[match.awayTeam].points += 3;
+                        stats[match.homeTeam].losses++;
+                    } else {
+                        stats[match.homeTeam].draws++;
+                        stats[match.awayTeam].draws++;
+                        stats[match.homeTeam].points++;
+                        stats[match.awayTeam].points++;
+                    }
+
+                    stats[match.homeTeam].goalDiff = stats[match.homeTeam].goalsFor - stats[match.homeTeam].goalsAgainst;
+                    stats[match.awayTeam].goalDiff = stats[match.awayTeam].goalsFor - stats[match.awayTeam].goalsAgainst;
+                }
+            });
+
+            // Sort
+            return Object.entries(stats).sort((a, b) => {
+                if (b[1].points !== a[1].points) return b[1].points - a[1].points;
+                if (b[1].goalDiff !== a[1].goalDiff) return b[1].goalDiff - a[1].goalDiff;
+                return b[1].goalsFor - a[1].goalsFor;
+            });
+        }
+
+        // Update standings
+        function updateStandings() {
+            const sortedTeams = calculateStandings();
+            const standingsBody = document.getElementById('standings');
+
+            standingsBody.innerHTML = sortedTeams.map(([team, stats], index) => {
+                const teamColor = teamColors[team] || '#667eea';
+                const textColor = ['#F8CFA8', '#F4D35E', '#CCCCCC', '#FF85E3', '#7CA6D9', '#F28C28'].includes(teamColor) ? '#333' : '#fff';
+
+                return `
+                    <tr>
+                        <td class="center"><span class="position" style="background: ${teamColor}; color: ${textColor};">${index + 1}</span></td>
+                        <td class="team-cell">${team}</td>
+                        <td class="center">${stats.played}</td>
+                        <td class="center">${stats.wins}</td>
+                        <td class="center">${stats.draws}</td>
+                        <td class="center">${stats.losses}</td>
+                        <td class="center">${stats.goalsFor}</td>
+                        <td class="center">${stats.goalsAgainst}</td>
+                        <td class="center">${stats.goalDiff > 0 ? '+' : ''}${stats.goalDiff}</td>
+                        <td class="center"><span class="points">${stats.points}</span></td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Auto-refresh every 30 seconds
+        setInterval(loadScores, 30000);
+
+        // Initial load
+        loadScores();
+    </script>
+</body>
+</html>
