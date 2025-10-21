@@ -251,25 +251,110 @@
         }
 
         @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            header {
+                padding: 20px 15px;
+            }
+
             header h1 {
-                font-size: 1.5em;
+                font-size: 1.3em;
+            }
+
+            header p {
+                font-size: 0.95em;
+            }
+
+            .last-updated {
+                font-size: 0.8em;
             }
 
             .content {
-                padding: 15px;
+                padding: 10px;
+                gap: 15px;
             }
 
             .section {
-                padding: 15px;
+                padding: 12px;
             }
 
-            th, td {
-                padding: 10px 5px;
+            .section h2 {
+                font-size: 1.2em;
+                margin-bottom: 12px;
+            }
+
+            .week-header {
+                padding: 10px 12px;
+                font-size: 0.95em;
+                flex-direction: column;
+                gap: 5px;
+                align-items: flex-start;
+            }
+
+            .week-date {
                 font-size: 0.85em;
             }
 
+            .match {
+                padding: 12px 10px;
+                margin-bottom: 10px;
+            }
+
+            .match-info {
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+            }
+
             .team-name {
-                min-width: 100px;
+                min-width: auto;
+                width: 100%;
+                font-size: 0.95em;
+                text-align: center;
+                font-weight: 700;
+            }
+
+            .score-input {
+                width: 70px;
+                height: 45px;
+                font-size: 1.2em;
+                margin: 0 auto;
+                display: block;
+            }
+
+            .vs {
+                font-size: 1.2em;
+                margin: 5px 0;
+                text-align: center;
+                display: block;
+            }
+
+            table {
+                font-size: 0.75em;
+            }
+
+            th, td {
+                padding: 8px 3px;
+            }
+
+            th {
+                font-size: 0.75em;
+            }
+
+            .position {
+                width: 24px;
+                height: 24px;
+                font-size: 0.8em;
+            }
+
+            .team-cell {
+                font-size: 0.85em;
+            }
+
+            .points {
+                font-size: 1em;
             }
         }
     </style>
