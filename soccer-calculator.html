@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOHO Fall 2025 - Group Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 12px 12px 0 0;
+        }
+
+        header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+            align-items: start;
+        }
+
+        .section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+        }
+
+        .section.standings-section {
+            position: sticky;
+            top: 20px;
+            align-self: start;
+        }
+
+        .section.matches-section {
+            max-height: none;
+        }
+
+        .standings-wrapper {
+            max-height: calc(100vh - 40px);
+            overflow-y: auto;
+        }
+
+        .section h2 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .week-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 20px;
+            margin: 20px 0 15px 0;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 1.1em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .week-header:first-child {
+            margin-top: 0;
+        }
+
+        .week-date {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .match {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .match-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+
+        .team-name {
+            font-weight: 600;
+            min-width: 150px;
+            color: #333;
+        }
+
+        .score-input {
+            width: 45px;
+            height: 45px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .score-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .score-input::placeholder {
+            color: #ccc;
+        }
+
+        .vs {
+            font-weight: bold;
+            color: #999;
+            margin: 0 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+        }
+
+        th {
+            padding: 15px 10px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        th.center, td.center {
+            text-align: center;
+        }
+
+        td {
+            padding: 15px 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .position {
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .team-cell {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .points {
+            font-weight: bold;
+            color: #1e3c72;
+            font-size: 1.1em;
+        }
+
+        @media (max-width: 968px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+
+            .section.standings-section {
+                position: static;
+            }
+
+            .standings-wrapper {
+                max-height: none;
+            }
+
+            .team-name {
+                min-width: 120px;
+                font-size: 0.9em;
+            }
+
+            .score-input {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1em;
+            }
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.5em;
+            }
+
+            .content {
+                padding: 15px;
+            }
+
+            .section {
+                padding: 15px;
+            }
+
+            th, td {
+                padding: 10px 5px;
+                font-size: 0.85em;
+            }
+
+            .team-name {
+                min-width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>NOHO Fall 2025</h1>
+            <p>Live Group Calculator</p>
+        </header>
+
+        <div class="content">
+            <div class="section matches-section">
+                <h2>Match Schedule</h2>
+                <div id="matches"></div>
+            </div>
+
+            <div class="section standings-section">
+                <h2>Group Standings</h2>
+                <div class="standings-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="center">#</th>
+                                <th>Team</th>
+                                <th class="center">P</th>
+                                <th class="center">W</th>
+                                <th class="center">D</th>
+                                <th class="center">L</th>
+                                <th class="center">GF</th>
+                                <th class="center">GA</th>
+                                <th class="center">GD</th>
+                                <th class="center">Pts</th>
+                            </tr>
+                        </thead>
+                        <tbody id="standings"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Define all matches organized by week
+        const matchesByWeek = [
+            {
+                week: 'Week 1',
+                date: '9/14/25',
+                matches: [
+                    { home: 'Highland Park FC', away: 'Silverlake FC', homeScore: '1', awayScore: '3' },
+                    { home: 'NOHO United', away: 'Studio City FC', homeScore: '4', awayScore: '3' },
+                    { home: 'Golden Road FC', away: 'Southland FC', homeScore: '5', awayScore: '2' },
+                    { home: 'Laurel Canyon FC', away: 'Hollywood United', homeScore: '5', awayScore: '5' },
+                    { home: 'LA Avengers', away: 'LA Aftershock', homeScore: '8', awayScore: '0' },
+                    { home: 'Smogtown FC', away: 'Fault Line FC', homeScore: '4', awayScore: '0' }
+                ]
+            },
+            {
+                week: 'Week 2',
+                date: '9/21/25',
+                matches: [
+                    { home: 'Golden Road FC', away: 'Fault Line FC', homeScore: '7', awayScore: '3' },
+                    { home: 'LA Avengers', away: 'Southland FC', homeScore: '4', awayScore: '1' },
+                    { home: 'Studio City FC', away: 'Smogtown FC', homeScore: '3', awayScore: '6' },
+                    { home: 'Laurel Canyon FC', away: 'LA Aftershock', homeScore: '3', awayScore: '0' },
+                    { home: 'Hollywood United', away: 'Highland Park FC', homeScore: '3', awayScore: '4' },
+                    { home: 'Silverlake FC', away: 'NOHO United', homeScore: '0', awayScore: '1' }
+                ]
+            },
+            {
+                week: 'Week 3',
+                date: '9/28/25',
+                matches: [
+                    { home: 'Studio City FC', away: 'Silverlake FC', homeScore: '0', awayScore: '3' },
+                    { home: 'NOHO United', away: 'LA Avengers', homeScore: '2', awayScore: '2' },
+                    { home: 'Southland FC', away: 'Hollywood United', homeScore: '5', awayScore: '1' },
+                    { home: 'Fault Line FC', away: 'Laurel Canyon FC', homeScore: '2', awayScore: '3' },
+                    { home: 'Smogtown FC', away: 'LA Aftershock', homeScore: '6', awayScore: '1' },
+                    { home: 'Highland Park FC', away: 'Golden Road FC', homeScore: '1', awayScore: '3' }
+                ]
+            },
+            {
+                week: 'Week 4',
+                date: '10/5/25',
+                matches: [
+                    { home: 'Laurel Canyon FC', away: 'Studio City FC', homeScore: '12', awayScore: '5' },
+                    { home: 'Hollywood United', away: 'Smogtown FC', homeScore: '2', awayScore: '5' },
+                    { home: 'Highland Park FC', away: 'NOHO United', homeScore: '5', awayScore: '4' },
+                    { home: 'Golden Road FC', away: 'LA Aftershock', homeScore: '13', awayScore: '1' },
+                    { home: 'Silverlake FC', away: 'Southland FC', homeScore: '1', awayScore: '4' },
+                    { home: 'LA Avengers', away: 'Fault Line FC', homeScore: '3', awayScore: '0' }
+                ]
+            },
+            {
+                week: 'Week 5',
+                date: '10/12/25',
+                matches: [
+                    { home: 'Smogtown FC', away: 'Southland FC', homeScore: '1', awayScore: '8' },
+                    { home: 'Fault Line FC', away: 'NOHO United', homeScore: '0', awayScore: '3' },
+                    { home: 'Laurel Canyon FC', away: 'LA Avengers', homeScore: '4', awayScore: '3' },
+                    { home: 'Studio City FC', away: 'Highland Park FC', homeScore: '0', awayScore: '9' },
+                    { home: 'Hollywood United', away: 'LA Aftershock', homeScore: '5', awayScore: '0' },
+                    { home: 'Silverlake FC', away: 'Golden Road FC', homeScore: '3', awayScore: '3' }
+                ]
+            },
+            {
+                week: 'Week 6',
+                date: 'TBD',
+                matches: [
+                    { home: 'NOHO United', away: 'Golden Road FC', homeScore: '', awayScore: '' },
+                    { home: 'Southland FC', away: 'Laurel Canyon FC', homeScore: '', awayScore: '' },
+                    { home: 'LA Aftershock', away: 'Silverlake FC', homeScore: '', awayScore: '' },
+                    { home: 'Highland Park FC', away: 'LA Avengers', homeScore: '', awayScore: '' },
+                    { home: 'Fault Line FC', away: 'Studio City FC', homeScore: '', awayScore: '' },
+                    { home: 'Smogtown FC', away: 'Hollywood United', homeScore: '', awayScore: '' }
+                ]
+            },
+            {
+                week: 'Week 7',
+                date: 'TBD',
+                matches: [
+                    { home: 'LA Avengers', away: 'Silverlake FC', homeScore: '', awayScore: '' },
+                    { home: 'Golden Road FC', away: 'Studio City FC', homeScore: '', awayScore: '' },
+                    { home: 'Hollywood United', away: 'Fault Line FC', homeScore: '', awayScore: '' },
+                    { home: 'LA Aftershock', away: 'Southland FC', homeScore: '', awayScore: '' },
+                    { home: 'Laurel Canyon FC', away: 'Highland Park FC', homeScore: '', awayScore: '' },
+                    { home: 'NOHO United', away: 'Smogtown FC', homeScore: '', awayScore: '' }
+                ]
+            },
+            {
+                week: 'Championship Week',
+                date: 'TBD',
+                isChampionship: true,
+                matches: []
+            }
+        ];
+
+        // Flatten matches for calculations (exclude championship week)
+        const matches = matchesByWeek.flatMap(week =>
+            week.isChampionship ? [] : week.matches
+        );
+
+        // Get unique teams (filter out TBD)
+        const teams = [...new Set([...matches.map(m => m.home), ...matches.map(m => m.away)])].filter(team => team !== 'TBD');
+
+        // Team colors from the website
+        const teamColors = {
+            'Highland Park FC': '#F8CFA8',
+            'NOHO United': '#00A651',
+            'Golden Road FC': '#F4D35E',
+            'LA Avengers': '#7C0A1A',
+            'Laurel Canyon FC': '#FF006E',
+            'Smogtown FC': '#CCCCCC',  // Changed from white for visibility
+            'Silverlake FC': '#FF85E3',
+            'Studio City FC': '#7CA6D9',
+            'Southland FC': '#F28C28',
+            'LA Aftershock': '#2B4420',
+            'Hollywood United': '#5B2C82',
+            'Fault Line FC': '#E30613'
+        };
+
+        // Initialize team stats
+        function initializeStats() {
+            const stats = {};
+            teams.forEach(team => {
+                stats[team] = {
+                    played: 0,
+                    wins: 0,
+                    draws: 0,
+                    losses: 0,
+                    goalsFor: 0,
+                    goalsAgainst: 0,
+                    goalDiff: 0,
+                    points: 0
+                };
+            });
+            return stats;
+        }
+
+        // Calculate standings
+        function calculateStandings() {
+            const stats = initializeStats();
+
+            matches.forEach((match, index) => {
+                const homeInput = document.getElementById(`home-${index}`);
+                const awayInput = document.getElementById(`away-${index}`);
+
+                // Skip if inputs don't exist (e.g., championship week)
+                if (!homeInput || !awayInput) return;
+
+                const homeScore = parseInt(homeInput.value);
+                const awayScore = parseInt(awayInput.value);
+
+                if (!isNaN(homeScore) && !isNaN(awayScore)) {
+                    // Update played
+                    stats[match.home].played++;
+                    stats[match.away].played++;
+
+                    // Update goals
+                    stats[match.home].goalsFor += homeScore;
+                    stats[match.home].goalsAgainst += awayScore;
+                    stats[match.away].goalsFor += awayScore;
+                    stats[match.away].goalsAgainst += homeScore;
+
+                    // Determine result
+                    if (homeScore > awayScore) {
+                        stats[match.home].wins++;
+                        stats[match.home].points += 3;
+                        stats[match.away].losses++;
+                    } else if (awayScore > homeScore) {
+                        stats[match.away].wins++;
+                        stats[match.away].points += 3;
+                        stats[match.home].losses++;
+                    } else {
+                        stats[match.home].draws++;
+                        stats[match.away].draws++;
+                        stats[match.home].points++;
+                        stats[match.away].points++;
+                    }
+
+                    // Calculate goal difference
+                    stats[match.home].goalDiff = stats[match.home].goalsFor - stats[match.home].goalsAgainst;
+                    stats[match.away].goalDiff = stats[match.away].goalsFor - stats[match.away].goalsAgainst;
+                }
+            });
+
+            // Sort teams by points, then goal difference, then goals for
+            const sortedTeams = Object.entries(stats).sort((a, b) => {
+                if (b[1].points !== a[1].points) return b[1].points - a[1].points;
+                if (b[1].goalDiff !== a[1].goalDiff) return b[1].goalDiff - a[1].goalDiff;
+                return b[1].goalsFor - a[1].goalsFor;
+            });
+
+            return sortedTeams;
+        }
+
+        // Render matches organized by week
+        function renderMatches() {
+            const matchesDiv = document.getElementById('matches');
+            let matchIndex = 0;
+
+            matchesDiv.innerHTML = matchesByWeek.map(weekData => {
+                // Handle championship week specially
+                if (weekData.isChampionship) {
+                    const sortedTeams = calculateStandings();
+                    const championshipMatches = [];
+
+                    // Create all championship matchups (1v2, 3v4, 5v6, 7v8, 9v10, 11v12)
+                    if (sortedTeams.length >= 12) {
+                        championshipMatches.push({
+                            home: sortedTeams[1][0],
+                            away: sortedTeams[0][0],
+                            label: '1st vs 2nd'
+                        });
+                        championshipMatches.push({
+                            home: sortedTeams[3][0],
+                            away: sortedTeams[2][0],
+                            label: '3rd vs 4th'
+                        });
+                        championshipMatches.push({
+                            home: sortedTeams[5][0],
+                            away: sortedTeams[4][0],
+                            label: '5th vs 6th'
+                        });
+                        championshipMatches.push({
+                            home: sortedTeams[7][0],
+                            away: sortedTeams[6][0],
+                            label: '7th vs 8th'
+                        });
+                        championshipMatches.push({
+                            home: sortedTeams[9][0],
+                            away: sortedTeams[8][0],
+                            label: '9th vs 10th'
+                        });
+                        championshipMatches.push({
+                            home: sortedTeams[11][0],
+                            away: sortedTeams[10][0],
+                            label: '11th vs 12th'
+                        });
+                    }
+
+                    const weekHTML = `
+                        <div class="week-header">
+                            <span>${weekData.week}</span>
+                            <span class="week-date">${weekData.date}</span>
+                        </div>
+                        <div style="background: #fff3cd; padding: 10px; margin-bottom: 15px; border-radius: 6px; color: #856404; font-weight: 600;">
+                            If playoffs were today:
+                        </div>
+                        <div class="championship-matches">
+                            ${championshipMatches.map((match, idx) => {
+                                return `
+                                    <div class="match">
+                                        <div class="match-info">
+                                            <span class="team-name">${match.home}</span>
+                                            <span style="color: #999; font-size: 0.9em; min-width: 80px; text-align: center;">${match.label}</span>
+                                            <span class="team-name">${match.away}</span>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    `;
+                    return weekHTML;
+                }
+
+                // Regular weeks
+                const weekHTML = `
+                    <div class="week-header">
+                        <span>${weekData.week}</span>
+                        <span class="week-date">${weekData.date}</span>
+                    </div>
+                    ${weekData.matches.map(match => {
+                        const currentIndex = matchIndex++;
+                        return `
+                            <div class="match">
+                                <div class="match-info">
+                                    <span class="team-name">${match.home}</span>
+                                    <input type="number"
+                                           id="home-${currentIndex}"
+                                           class="score-input"
+                                           min="0"
+                                           placeholder="-"
+                                           value="${match.homeScore}"
+                                           oninput="updateStandings()">
+                                    <span class="vs">:</span>
+                                    <input type="number"
+                                           id="away-${currentIndex}"
+                                           class="score-input"
+                                           min="0"
+                                           placeholder="-"
+                                           value="${match.awayScore}"
+                                           oninput="updateStandings()">
+                                    <span class="team-name">${match.away}</span>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                `;
+                return weekHTML;
+            }).join('');
+        }
+
+        // Update standings table and championship matchups
+        function updateStandings() {
+            const sortedTeams = calculateStandings();
+            const standingsBody = document.getElementById('standings');
+
+            standingsBody.innerHTML = sortedTeams.map(([team, stats], index) => {
+                const teamColor = teamColors[team] || '#667eea';
+                const textColor = ['#F8CFA8', '#F4D35E', '#CCCCCC', '#FF85E3', '#7CA6D9', '#F28C28'].includes(teamColor) ? '#333' : '#fff';
+
+                return `
+                    <tr>
+                        <td class="center"><span class="position" style="background: ${teamColor}; color: ${textColor};">${index + 1}</span></td>
+                        <td class="team-cell">${team}</td>
+                        <td class="center">${stats.played}</td>
+                        <td class="center">${stats.wins}</td>
+                        <td class="center">${stats.draws}</td>
+                        <td class="center">${stats.losses}</td>
+                        <td class="center">${stats.goalsFor}</td>
+                        <td class="center">${stats.goalsAgainst}</td>
+                        <td class="center">${stats.goalDiff > 0 ? '+' : ''}${stats.goalDiff}</td>
+                        <td class="center"><span class="points">${stats.points}</span></td>
+                    </tr>
+                `;
+            }).join('');
+
+            // Update championship matchups only
+            updateChampionshipMatchups();
+        }
+
+        // Update just the championship week display
+        function updateChampionshipMatchups() {
+            const sortedTeams = calculateStandings();
+
+            if (sortedTeams.length >= 12) {
+                const championshipSection = document.querySelector('.championship-matches');
+                if (championshipSection) {
+                    championshipSection.innerHTML = `
+                        <div class="match">
+                            <div class="match-info">
+                                <span class="team-name">${sortedTeams[1][0]}</span>
+                                <span style="color: #999; font-size: 0.9em; min-width: 80px; text-align: center;">1st vs 2nd</span>
+                                <span class="team-name">${sortedTeams[0][0]}</span>
+                            </div>
+                        </div>
+                        <div class="match">
+                            <div class="match-info">
+                                <span class="team-name">${sortedTeams[3][0]}</span>
+                                <span style="color: #999; font-size: 0.9em; min-width: 80px; text-align: center;">3rd vs 4th</span>
+                                <span class="team-name">${sortedTeams[2][0]}</span>
+                            </div>
+                        </div>
+                        <div class="match">
+                            <div class="match-info">
+                                <span class="team-name">${sortedTeams[5][0]}</span>
+                                <span style="color: #999; font-size: 0.9em; min-width: 80px; text-align: center;">5th vs 6th</span>
+                                <span class="team-name">${sortedTeams[4][0]}</span>
+                            </div>
+                        </div>
+                        <div class="match">
+                            <div class="match-info">
+                                <span class="team-name">${sortedTeams[7][0]}</span>
+                                <span style="color: #999; font-size: 0.9em; min-width: 80px; text-align: center;">7th vs 8th</span>
+                                <span class="team-name">${sortedTeams[6][0]}</span>
+                            </div>
+                        </div>
+                        <div class="match">
+                            <div class="match-info">
+                                <span class="team-name">${sortedTeams[9][0]}</span>
+                                <span style="color: #999; font-size: 0.9em; min-width: 80px; text-align: center;">9th vs 10th</span>
+                                <span class="team-name">${sortedTeams[8][0]}</span>
+                            </div>
+                        </div>
+                        <div class="match">
+                            <div class="match-info">
+                                <span class="team-name">${sortedTeams[11][0]}</span>
+                                <span style="color: #999; font-size: 0.9em; min-width: 80px; text-align: center;">11th vs 12th</span>
+                                <span class="team-name">${sortedTeams[10][0]}</span>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        // Initialize
+        renderMatches();
+        updateStandings();
+    </script>
+</body>
+</html>

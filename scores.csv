@@ -1,0 +1,43 @@
+Week,Date,HomeTeam,HomeScore,AwayScore,AwayTeam,UpdatedBy,Timestamp
+Week 1,9/14/25,Highland Park FC,1,3,Silverlake FC,Admin,2025-09-14T17:00:00Z
+Week 1,9/14/25,NOHO United,4,3,Studio City FC,Admin,2025-09-14T18:00:00Z
+Week 1,9/14/25,Golden Road FC,5,2,Southland FC,Admin,2025-09-14T19:00:00Z
+Week 1,9/14/25,Laurel Canyon FC,5,5,Hollywood United,Admin,2025-09-14T19:00:00Z
+Week 1,9/14/25,LA Avengers,8,0,LA Aftershock,Admin,2025-09-14T20:00:00Z
+Week 1,9/14/25,Smogtown FC,4,0,Fault Line FC,Admin,2025-09-14T20:00:00Z
+Week 2,9/21/25,Golden Road FC,7,3,Fault Line FC,Admin,2025-09-21T17:00:00Z
+Week 2,9/21/25,LA Avengers,4,1,Southland FC,Admin,2025-09-21T18:00:00Z
+Week 2,9/21/25,Studio City FC,3,6,Smogtown FC,Admin,2025-09-21T19:00:00Z
+Week 2,9/21/25,Laurel Canyon FC,3,0,LA Aftershock,Admin,2025-09-21T19:00:00Z
+Week 2,9/21/25,Hollywood United,3,4,Highland Park FC,Admin,2025-09-21T20:00:00Z
+Week 2,9/21/25,Silverlake FC,0,1,NOHO United,Admin,2025-09-21T20:00:00Z
+Week 3,9/28/25,Studio City FC,0,3,Silverlake FC,Admin,2025-09-28T17:00:00Z
+Week 3,9/28/25,NOHO United,2,2,LA Avengers,Admin,2025-09-28T18:00:00Z
+Week 3,9/28/25,Southland FC,5,1,Hollywood United,Admin,2025-09-28T19:00:00Z
+Week 3,9/28/25,Fault Line FC,2,3,Laurel Canyon FC,Admin,2025-09-28T19:00:00Z
+Week 3,9/28/25,Smogtown FC,6,1,LA Aftershock,Admin,2025-09-28T20:00:00Z
+Week 3,9/28/25,Highland Park FC,1,3,Golden Road FC,Admin,2025-09-28T20:00:00Z
+Week 4,10/5/25,Laurel Canyon FC,12,5,Studio City FC,Admin,2025-10-05T17:00:00Z
+Week 4,10/5/25,Hollywood United,2,5,Smogtown FC,Admin,2025-10-05T18:00:00Z
+Week 4,10/5/25,Highland Park FC,5,4,NOHO United,Admin,2025-10-05T19:00:00Z
+Week 4,10/5/25,Golden Road FC,13,1,LA Aftershock,Admin,2025-10-05T19:00:00Z
+Week 4,10/5/25,Silverlake FC,1,4,Southland FC,Admin,2025-10-05T20:00:00Z
+Week 4,10/5/25,LA Avengers,3,0,Fault Line FC,Admin,2025-10-05T20:00:00Z
+Week 5,10/12/25,Smogtown FC,1,8,Southland FC,Admin,2025-10-12T17:00:00Z
+Week 5,10/12/25,Fault Line FC,0,3,NOHO United,Admin,2025-10-12T18:00:00Z
+Week 5,10/12/25,Laurel Canyon FC,4,3,LA Avengers,Admin,2025-10-12T19:00:00Z
+Week 5,10/12/25,Studio City FC,0,9,Highland Park FC,Admin,2025-10-12T19:00:00Z
+Week 5,10/12/25,Hollywood United,5,0,LA Aftershock,Admin,2025-10-12T20:00:00Z
+Week 5,10/12/25,Silverlake FC,3,3,Golden Road FC,Admin,2025-10-12T20:00:00Z
+Week 6,TBD,NOHO United,,,Golden Road FC,,
+Week 6,TBD,Southland FC,,,Laurel Canyon FC,,
+Week 6,TBD,LA Aftershock,,,Silverlake FC,,
+Week 6,TBD,Highland Park FC,,,LA Avengers,,
+Week 6,TBD,Fault Line FC,,,Studio City FC,,
+Week 6,TBD,Smogtown FC,,,Hollywood United,,
+Week 7,TBD,LA Avengers,,,Silverlake FC,,
+Week 7,TBD,Golden Road FC,,,Studio City FC,,
+Week 7,TBD,Hollywood United,,,Fault Line FC,,
+Week 7,TBD,LA Aftershock,,,Southland FC,,
+Week 7,TBD,Laurel Canyon FC,,,Highland Park FC,,
+Week 7,TBD,NOHO United,,,Smogtown FC,,
