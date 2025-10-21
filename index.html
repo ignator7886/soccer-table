@@ -130,16 +130,8 @@
 
         .team-name {
             font-weight: 600;
-            min-width: 180px;
-            max-width: 180px;
+            min-width: 150px;
             color: #333;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .match.live .team-name {
-            max-width: 140px;
         }
 
         .score {
@@ -336,11 +328,11 @@
                 width: 100%;
                 justify-content: flex-start;
                 align-items: center;
-                padding-right: 70px;
             }
 
             .live-indicator {
-                right: 8px;
+                top: 5px;
+                right: 5px;
                 font-size: 0.65em;
                 padding: 3px 8px;
             }
@@ -447,7 +439,8 @@
             font-weight: bold;
             animation: pulse 2s ease-in-out infinite;
             position: absolute;
-            right: 15px;
+            top: 8px;
+            right: 8px;
         }
 
         .live-dot {
