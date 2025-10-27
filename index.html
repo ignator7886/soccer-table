@@ -207,6 +207,14 @@
             background: #f8f9fa;
         }
 
+        tbody tr.playoff-position {
+            background: #d4edda;
+        }
+
+        tbody tr.playoff-position:hover {
+            background: #c3e6cb;
+        }
+
         .position {
             color: white;
             width: 30px;
@@ -773,9 +781,10 @@
             standingsBody.innerHTML = sortedTeams.map(([team, stats], index) => {
                 const teamColor = teamColors[team] || '#cccccc';
                 const textColor = ['#F8CFA8', '#F4D35E', '#CCCCCC', '#FF85E3', '#7CA6D9', '#F28C28'].includes(teamColor) ? '#333' : '#fff';
+                const playoffClass = index < 4 ? 'playoff-position' : '';
 
                 return `
-                    <tr>
+                    <tr class="${playoffClass}">
                         <td class="center"><span class="position" style="background: ${teamColor}; color: ${textColor};">${index + 1}</span></td>
                         <td class="team-cell">${team}</td>
                         <td class="center">${stats.played}</td>
