@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #f5f5f5;
             padding: 20px;
             min-height: 100vh;
         }
@@ -27,11 +27,12 @@
         }
 
         header {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
+            background: white;
+            color: #1a1a1a;
             padding: 30px;
             text-align: center;
             border-radius: 12px 12px 0 0;
+            border-bottom: 3px solid #e1e5ee;
         }
 
         header h1 {
@@ -80,15 +81,17 @@
         }
 
         .section h2 {
-            color: #1e3c72;
+            color: #1a1a1a;
             margin-bottom: 20px;
             font-size: 1.5em;
-            border-bottom: 3px solid #667eea;
+            border-bottom: 3px solid #e1e5ee;
             padding-bottom: 10px;
+            font-weight: 700;
+            text-align: center;
         }
 
         .week-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #1a1a1a;
             color: white;
             padding: 12px 20px;
             margin: 20px 0 15px 0;
@@ -118,6 +121,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            position: relative;
         }
 
         .match-info {
@@ -136,9 +140,30 @@
         .score {
             font-size: 1.3em;
             font-weight: bold;
-            color: #1e3c72;
+            color: #1a1a1a;
             min-width: 40px;
             text-align: center;
+        }
+
+        .score-input {
+            width: 45px;
+            height: 45px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .score-input:focus {
+            border-color: #e1e5ee;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .score-input::placeholder {
+            color: #ccc;
         }
 
         .vs {
@@ -156,7 +181,7 @@
         }
 
         thead {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            background: #2c3e50;
             color: white;
         }
 
@@ -200,7 +225,7 @@
 
         .points {
             font-weight: bold;
-            color: #1e3c72;
+            color: #1a1a1a;
             font-size: 1.1em;
         }
 
@@ -213,10 +238,17 @@
         @media (max-width: 968px) {
             .content {
                 grid-template-columns: 1fr;
+                display: flex;
+                flex-direction: column;
             }
 
             .section.standings-section {
                 position: static;
+                order: -1;
+            }
+
+            .section.matches-section {
+                order: 1;
             }
 
             .standings-wrapper {
@@ -230,27 +262,213 @@
         }
 
         @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                overflow: hidden;
+            }
+
+            header {
+                padding: 20px 15px;
+            }
+
             header h1 {
-                font-size: 1.5em;
+                font-size: 1.3em;
+            }
+
+            header p {
+                font-size: 0.95em;
+            }
+
+            .last-updated {
+                font-size: 0.8em;
             }
 
             .content {
-                padding: 15px;
+                padding: 10px;
+                gap: 15px;
             }
 
             .section {
-                padding: 15px;
+                padding: 0;
+                background: transparent;
             }
 
-            th, td {
-                padding: 10px 5px;
+            .section.standings-section {
+                padding: 12px;
+                background: #f8f9fa;
+                margin: 0;
+                border-radius: 8px;
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+
+            .section.matches-section {
+                padding: 12px;
+                background: #f8f9fa;
+                margin: 0;
+                border-radius: 8px;
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+
+            .section h2 {
+                font-size: 1.2em;
+                margin-bottom: 12px;
+                text-align: center;
+            }
+
+            .section.standings-section h2 {
+                padding: 0;
+                text-align: center !important;
+                width: 100%;
+                display: block;
+            }
+
+            .section.matches-section h2 {
+                padding: 0;
+                margin-left: 0;
+                text-align: center !important;
+                width: 100%;
+                display: block;
+            }
+
+            .week-header {
+                padding: 8px 12px;
                 font-size: 0.85em;
+                flex-direction: row;
+                margin: 15px 0 8px 0;
+                justify-content: space-between;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .week-date {
+                font-size: 0.8em;
+            }
+
+            .match {
+                display: flex;
+                padding: 8px 12px;
+                margin: 0;
+                background: transparent;
+                box-shadow: none;
+                border-radius: 0;
+                border-bottom: 1px solid #e1e5ee;
+                justify-content: center;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .match-info {
+                flex-direction: row;
+                gap: 6px;
+                width: 100%;
+                justify-content: center;
+                align-items: center;
             }
 
             .team-name {
-                min-width: 100px;
+                flex: 1;
+                max-width: 180px;
+                font-size: 0.7em;
+                text-align: left;
+                font-weight: 600;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .team-name:first-of-type {
+                text-align: right;
+            }
+
+            .team-name:last-child {
+                text-align: left;
+            }
+
+            .score-input {
+                width: 35px;
+                height: 32px;
+                font-size: 0.9em;
+                padding: 2px;
+                flex-shrink: 0;
+            }
+
+            .vs {
+                font-size: 0.8em;
+                margin: 0 2px;
+                flex-shrink: 0;
+            }
+
+            table {
+                font-size: 0.65em;
+                width: 100%;
+                max-width: 100%;
+                margin: 0 auto;
+            }
+
+            thead, tbody {
+                width: 100%;
+            }
+
+            th, td {
+                text-align: center !important;
+            }
+
+            .standings-wrapper {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                margin: 0;
+                padding: 0;
+            }
+
+            th, td {
+                padding: 6px 1px;
+            }
+
+            th {
+                font-size: 0.65em;
+                padding: 8px 1px;
+            }
+
+            th:first-child, td:first-child {
+                width: 24px;
+                padding-left: 2px;
+            }
+
+            th:nth-child(2), td:nth-child(2) {
+                min-width: 70px;
+                text-align: left;
+                padding-left: 3px;
+            }
+
+            th:not(:first-child):not(:nth-child(2)),
+            td:not(:first-child):not(:nth-child(2)) {
+                width: 24px;
+            }
+
+            .position {
+                width: 20px;
+                height: 20px;
+                font-size: 0.7em;
+            }
+
+            .team-cell {
+                font-size: 0.8em;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                text-align: left;
+            }
+
+            .points {
+                font-size: 0.9em;
             }
         }
+
     </style>
 </head>
 <body>
@@ -315,7 +533,9 @@
         // Load CSV
         async function loadScores() {
             try {
-                const response = await fetch('scores.csv');
+                // Add timestamp to prevent caching
+                const timestamp = new Date().getTime();
+                const response = await fetch(`scores.csv?t=${timestamp}`);
                 const csvText = await response.text();
 
                 // Parse CSV
@@ -344,12 +564,19 @@
                 });
                 teams = Array.from(teamSet).filter(t => t && t !== 'TBD');
 
-                // Get last updated time
-                const lastMatch = allMatches[allMatches.length - 1];
-                if (lastMatch && lastMatch.timestamp) {
-                    const date = new Date(lastMatch.timestamp);
+                // Get last updated time - find most recent match with a timestamp
+                const matchesWithTimestamps = allMatches.filter(m => m.timestamp);
+                if (matchesWithTimestamps.length > 0) {
+                    // Sort by timestamp and get the most recent
+                    const sortedByTime = matchesWithTimestamps.sort((a, b) =>
+                        new Date(b.timestamp) - new Date(a.timestamp)
+                    );
+                    const mostRecent = sortedByTime[0];
+                    const date = new Date(mostRecent.timestamp);
                     document.getElementById('last-updated').textContent =
                         `Last updated: ${date.toLocaleString()}`;
+                } else {
+                    document.getElementById('last-updated').textContent = '';
                 }
 
                 renderMatches();
@@ -388,17 +615,33 @@
                         <span>${weekData.week}</span>
                         <span class="week-date">${weekData.date}</span>
                     </div>
-                    ${weekData.matches.map(match => `
-                        <div class="match">
-                            <div class="match-info">
-                                <span class="team-name">${match.homeTeam}</span>
-                                <span class="score">${match.homeScore || '-'}</span>
-                                <span class="vs">:</span>
-                                <span class="score">${match.awayScore || '-'}</span>
-                                <span class="team-name">${match.awayTeam}</span>
+                    ${weekData.matches.map((match, idx) => {
+                        const matchId = `${weekData.week}-${idx}`;
+
+                        return `
+                            <div class="match">
+                                <div class="match-info">
+                                    <span class="team-name">${match.homeTeam}</span>
+                                    <input type="number"
+                                           id="home-${matchId}"
+                                           class="score-input"
+                                           min="0"
+                                           placeholder="-"
+                                           value="${match.homeScore || ''}"
+                                           oninput="updateStandings()">
+                                    <span class="vs">:</span>
+                                    <input type="number"
+                                           id="away-${matchId}"
+                                           class="score-input"
+                                           min="0"
+                                           placeholder="-"
+                                           value="${match.awayScore || ''}"
+                                           oninput="updateStandings()">
+                                    <span class="team-name">${match.awayTeam}</span>
+                                </div>
                             </div>
-                        </div>
-                    `).join('')}
+                        `;
+                    }).join('')}
                 `;
             }).join('');
 
@@ -430,10 +673,10 @@
             const matchups = [
                 { home: sortedTeams[0][0], away: sortedTeams[3][0], label: '1st vs 4th' },
                 { home: sortedTeams[1][0], away: sortedTeams[2][0], label: '2nd vs 3rd' },
-                { home: sortedTeams[5][0], away: sortedTeams[4][0], label: '5th vs 6th' },
-                { home: sortedTeams[7][0], away: sortedTeams[6][0], label: '7th vs 8th' },
-                { home: sortedTeams[9][0], away: sortedTeams[8][0], label: '9th vs 10th' },
-                { home: sortedTeams[11][0], away: sortedTeams[10][0], label: '11th vs 12th' }
+                { home: sortedTeams[4][0], away: sortedTeams[5][0], label: '5th vs 6th' },
+                { home: sortedTeams[6][0], away: sortedTeams[7][0], label: '7th vs 8th' },
+                { home: sortedTeams[8][0], away: sortedTeams[9][0], label: '9th vs 10th' },
+                { home: sortedTeams[10][0], away: sortedTeams[11][0], label: '11th vs 12th' }
             ];
 
             return matchups.map((m, index) => {
@@ -460,7 +703,7 @@
             }).join('');
         }
 
-        // Calculate standings
+        // Calculate standings from current input values
         function calculateStandings() {
             const stats = {};
 
@@ -472,37 +715,46 @@
                 };
             });
 
-            // Calculate from matches
-            allMatches.forEach(match => {
-                const homeScore = parseInt(match.homeScore);
-                const awayScore = parseInt(match.awayScore);
+            // Calculate from current input field values
+            const weekGroups = groupByWeek();
+            weekGroups.forEach(weekData => {
+                weekData.matches.forEach((match, idx) => {
+                    const matchId = `${weekData.week}-${idx}`;
+                    const homeInput = document.getElementById(`home-${matchId}`);
+                    const awayInput = document.getElementById(`away-${matchId}`);
 
-                if (!isNaN(homeScore) && !isNaN(awayScore)) {
-                    stats[match.homeTeam].played++;
-                    stats[match.awayTeam].played++;
-                    stats[match.homeTeam].goalsFor += homeScore;
-                    stats[match.homeTeam].goalsAgainst += awayScore;
-                    stats[match.awayTeam].goalsFor += awayScore;
-                    stats[match.awayTeam].goalsAgainst += homeScore;
+                    if (!homeInput || !awayInput) return;
 
-                    if (homeScore > awayScore) {
-                        stats[match.homeTeam].wins++;
-                        stats[match.homeTeam].points += 3;
-                        stats[match.awayTeam].losses++;
-                    } else if (awayScore > homeScore) {
-                        stats[match.awayTeam].wins++;
-                        stats[match.awayTeam].points += 3;
-                        stats[match.homeTeam].losses++;
-                    } else {
-                        stats[match.homeTeam].draws++;
-                        stats[match.awayTeam].draws++;
-                        stats[match.homeTeam].points++;
-                        stats[match.awayTeam].points++;
+                    const homeScore = parseInt(homeInput.value);
+                    const awayScore = parseInt(awayInput.value);
+
+                    if (!isNaN(homeScore) && !isNaN(awayScore)) {
+                        stats[match.homeTeam].played++;
+                        stats[match.awayTeam].played++;
+                        stats[match.homeTeam].goalsFor += homeScore;
+                        stats[match.homeTeam].goalsAgainst += awayScore;
+                        stats[match.awayTeam].goalsFor += awayScore;
+                        stats[match.awayTeam].goalsAgainst += homeScore;
+
+                        if (homeScore > awayScore) {
+                            stats[match.homeTeam].wins++;
+                            stats[match.homeTeam].points += 3;
+                            stats[match.awayTeam].losses++;
+                        } else if (awayScore > homeScore) {
+                            stats[match.awayTeam].wins++;
+                            stats[match.awayTeam].points += 3;
+                            stats[match.homeTeam].losses++;
+                        } else {
+                            stats[match.homeTeam].draws++;
+                            stats[match.awayTeam].draws++;
+                            stats[match.homeTeam].points++;
+                            stats[match.awayTeam].points++;
+                        }
+
+                        stats[match.homeTeam].goalDiff = stats[match.homeTeam].goalsFor - stats[match.homeTeam].goalsAgainst;
+                        stats[match.awayTeam].goalDiff = stats[match.awayTeam].goalsFor - stats[match.awayTeam].goalsAgainst;
                     }
-
-                    stats[match.homeTeam].goalDiff = stats[match.homeTeam].goalsFor - stats[match.homeTeam].goalsAgainst;
-                    stats[match.awayTeam].goalDiff = stats[match.awayTeam].goalsFor - stats[match.awayTeam].goalsAgainst;
-                }
+                });
             });
 
             // Sort
@@ -519,7 +771,7 @@
             const standingsBody = document.getElementById('standings');
 
             standingsBody.innerHTML = sortedTeams.map(([team, stats], index) => {
-                const teamColor = teamColors[team] || '#667eea';
+                const teamColor = teamColors[team] || '#cccccc';
                 const textColor = ['#F8CFA8', '#F4D35E', '#CCCCCC', '#FF85E3', '#7CA6D9', '#F28C28'].includes(teamColor) ? '#333' : '#fff';
 
                 return `
@@ -538,9 +790,6 @@
                 `;
             }).join('');
         }
-
-        // Auto-refresh every 30 seconds
-        setInterval(loadScores, 30000);
 
         // Initial load
         loadScores();
