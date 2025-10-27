@@ -417,9 +417,6 @@
                         <span>Championship Week</span>
                         <span class="week-date">TBD</span>
                     </div>
-                    <div style="background: #fff3cd; padding: 10px; margin-bottom: 15px; border-radius: 6px; color: #856404; font-weight: 600;">
-                        If playoffs were today:
-                    </div>
                     <div class="championship-matches">
                         ${generateChampionshipMatchups(sortedTeams)}
                     </div>
@@ -431,23 +428,36 @@
         // Generate championship matchups
         function generateChampionshipMatchups(sortedTeams) {
             const matchups = [
-                { home: sortedTeams[1][0], away: sortedTeams[0][0], label: '1st vs 2nd' },
-                { home: sortedTeams[3][0], away: sortedTeams[2][0], label: '3rd vs 4th' },
+                { home: sortedTeams[0][0], away: sortedTeams[3][0], label: '1st vs 4th' },
+                { home: sortedTeams[1][0], away: sortedTeams[2][0], label: '2nd vs 3rd' },
                 { home: sortedTeams[5][0], away: sortedTeams[4][0], label: '5th vs 6th' },
                 { home: sortedTeams[7][0], away: sortedTeams[6][0], label: '7th vs 8th' },
                 { home: sortedTeams[9][0], away: sortedTeams[8][0], label: '9th vs 10th' },
                 { home: sortedTeams[11][0], away: sortedTeams[10][0], label: '11th vs 12th' }
             ];
 
-            return matchups.map(m => `
-                <div class="match">
-                    <div class="match-info">
-                        <span class="team-name">${m.home}</span>
-                        <span style="color: #999; font-size: 0.9em; min-width: 80px; text-align: center;">${m.label}</span>
-                        <span class="team-name">${m.away}</span>
+            return matchups.map((m, index) => {
+                const matchHTML = `
+                    <div class="match">
+                        <div class="match-info">
+                            <span class="team-name">${m.home}</span>
+                            <span style="color: #999; font-size: 0.9em; min-width: 80px; text-align: center;">${m.label}</span>
+                            <span class="team-name">${m.away}</span>
+                        </div>
                     </div>
-                </div>
-            `).join('');
+                `;
+
+                // Add VS separator after 1st vs 4th and 2nd vs 3rd to show championship bracket
+                if (index === 1) {
+                    return matchHTML + `
+                        <div style="text-align: center; padding: 10px; font-weight: bold; color: #667eea; font-size: 1.2em;">
+                            VS
+                        </div>
+                    `;
+                }
+
+                return matchHTML;
+            }).join('');
         }
 
         // Calculate standings
